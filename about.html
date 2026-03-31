@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emmanuel Rodríguez | About Me</title>
+    <style>
+        :root { 
+            --bg-gradient: linear-gradient(135deg, #1b1236 0%, #3a3a3a 100%); 
+            --accent: #4f46e5; 
+            --text-main: #ffffff; 
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body { 
+            background: var(--bg-gradient); 
+            color: var(--text-main); 
+            min-height: 100vh; 
+            overflow-x: hidden; 
+        }
+        
+        /* --- NAVBAR --- */
+        nav { 
+            position: fixed; 
+            top: 0; 
+            width: 100%; 
+            display: flex; 
+            justify-content: flex-end; 
+            gap: 30px; 
+            padding: 25px 5%; 
+            background: #1a1a1a; 
+            z-index: 1000; 
+        }
+        nav a { 
+            color: white; 
+            text-decoration: none; 
+            font-weight: 600; 
+            text-transform: uppercase; 
+            font-size: 0.9rem; 
+            transition: color 0.3s; 
+        }
+        nav a:hover { color: var(--accent); }
+        
+        /* --- ABOUT ME SECTION SPECIFIC CSS --- */
+        #about { 
+            position: relative; 
+            padding: 150px 5% 100px 5%; 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            overflow: hidden; 
+        }
+        
+        .about-fingerprint {
+            position: absolute;
+            bottom: 50px; 
+            right: -100px;  
+            width: 800px;   
+            height: 800px;
+            object-fit: contain;
+            opacity: 0.7;
+            z-index: 0;     
+            pointer-events: none; 
+            transition: all 0.3s ease; 
+        }
+        
+        .about-container { 
+            display: flex; 
+            align-items: center; 
+            gap: 60px; 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            position: relative; 
+            z-index: 2; 
+            /* NEW: Entrance Animation */
+            animation: fadeUp 0.8s ease-out forwards;
+        }
+        
+        .about-photo { 
+            width: 350px; 
+            height: 350px; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+            flex-shrink: 0; 
+            transition: all 0.4s ease;
+            /* NEW: Continuous Breathing Animation */
+            animation: floatPulse 4s ease-in-out infinite;
+        }
+
+        /* NEW: Hover effect for the photo */
+        .about-photo:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 20px 50px rgba(79, 70, 229, 0.6);
+            /* Pauses the floating when you put the mouse over it */
+            animation-play-state: paused; 
+        }
+        
+        .about-text h2 { 
+            font-size: 2.8rem; 
+            margin-bottom: 20px; 
+            text-transform: uppercase; 
+            font-weight: 900; 
+            letter-spacing: 1px; 
+            white-space: nowrap; 
+        }
+        
+        .about-text p { 
+            margin-bottom: 20px; 
+            line-height: 1.8; 
+            font-size: 1.25rem; 
+            text-align: justify; 
+        }
+
+        /* =========================================
+           NEW ANIMATION KEYFRAMES
+           ========================================= */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes floatPulse {
+            0% { transform: translateY(0px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+            50% { transform: translateY(-15px); box-shadow: 0 15px 40px rgba(79, 70, 229, 0.4); }
+            100% { transform: translateY(0px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        }
+
+        /* =========================================
+           RESPONSIVE DESIGN (Tablets & Mobile)
+           ========================================= */
+        @media (max-width: 1150px) {
+            .about-container { max-width: 90%; gap: 40px; }
+            .about-text h2 { font-size: 2.4rem; white-space: normal; }
+            .about-fingerprint { width: 600px; height: 600px; right: -150px; bottom: 0; }
+        }
+
+        @media (max-width: 768px) {
+            .about-container { flex-direction: column; text-align: center; }
+            .about-photo { width: 250px; height: 250px; }
+            .about-text h2 { font-size: 2.2rem; white-space: normal; text-align: center; }
+            .about-text p { font-size: 1.1rem; text-align: left; } 
+            .about-fingerprint { width: 400px; height: 400px; right: -120px; bottom: -50px; opacity: 0.4; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About Me</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="resume.pdf" target="_blank">Curriculum</a> 
+    </nav>
+
+    <section id="about">
+        <img src="about-fingerprint.png" alt="Decorative background" class="about-fingerprint">
+
+        <div class="about-container">
+            <img src="your-photo.png" alt="Emmanuel Rodríguez" class="about-photo">
+            <div class="about-text">
+                <h2>I'm Emmanuel Rodríguez</h2>
+                <p>I am a 5th-term Multimedia and Web Development student at Universidad Tecnológica de Coahuila (UTC). As a hybrid designer and frontend developer, I bridge the gap between creative visual storytelling and technical execution. Whether I am editing dynamic video content, rendering 3D environments in Blender, or writing clean code for Progressive Web Apps, my goal is always to build engaging and highly functional digital experiences.</p>
+                <p>Beyond the screen, I apply the same discipline and focus to my everyday life. I am a dedicated gym-goer, a hardware enthusiast who loves building and optimizing custom PCs, and I fuel my late-night design sessions with a solid My Chemical Romance playlist. I thrive in collaborative environments, adapt quickly to new software, and am always eager to tackle complex creative challenges.</p>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

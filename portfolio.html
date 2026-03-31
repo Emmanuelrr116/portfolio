@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emmanuel Rodríguez | Portfolio</title>
+    <style>
+        /* KEEP ALL YOUR PORTFOLIO CSS AND CAROUSEL CSS HERE */
+        /* --- GLOBAL & VARIABLES --- */
+        :root { --bg-gradient: linear-gradient(135deg, #1b1236 0%, #3a3a3a 100%); --card-bg: #1a1d24; --text-main: #ffffff; --text-muted: #a0aab2; --accent: #4f46e5; --border-low: rgba(255,255,255,0.05); }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        
+        /* NEW: Soft page load transition */
+        body { 
+            background: var(--bg-gradient); color: var(--text-main); min-height: 100vh; overflow-x: hidden; 
+            animation: pageFadeIn 0.5s ease-out;
+        }
+        
+        nav { position: fixed; top: 0; width: 100%; display: flex; justify-content: flex-end; gap: 30px; padding: 25px 5%; background: #1a1a1a; z-index: 1000; }
+        nav a { color: white; text-decoration: none; font-weight: 600; text-transform: uppercase; font-size: 0.9rem; transition: color 0.3s; }
+        nav a:hover { color: var(--accent); }
+
+        /* PORTFOLIO GRID */
+        #portfolio-grid-section { padding: 150px 5% 100px 5%; }
+        
+        /* NEW: Title and Intro animation */
+        #portfolio-grid-section h2, #portfolio-grid-section > p { 
+            animation: fadeUp 0.6s ease-out forwards; 
+        }
+        #portfolio-grid-section h2 { text-align: center; font-size: 3rem; text-transform: uppercase; margin-bottom: 10px; }
+        #portfolio-grid-section > p { text-align: center; margin-bottom: 30px; color: var(--text-muted); }
+        
+        /* NEW: Showreel delays slightly */
+        .reel-container { 
+            max-width: 1000px; margin: 0 auto 50px auto; 
+            opacity: 0; 
+            animation: fadeUp 0.6s ease-out 0.2s forwards;
+        }
+        .reel-container video { width: 100%; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); }
+
+        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; max-width: 1000px; margin: 0 auto; }
+        
+        /* NEW: The Cards start hidden and cascade in */
+        .portfolio-card { 
+            background-color: var(--card-bg); padding: 40px; border-radius: 16px; cursor: pointer; transition: 0.3s; border: 1px solid var(--border-low); box-shadow: 0 10px 30px rgba(0,0,0,0.3); 
+            opacity: 0;
+            animation: fadeUp 0.6s ease-out forwards;
+        }
+        
+        /* Cascading Delays for each card */
+        .portfolio-card:nth-child(1) { animation-delay: 0.3s; }
+        .portfolio-card:nth-child(2) { animation-delay: 0.4s; }
+        .portfolio-card:nth-child(3) { animation-delay: 0.5s; }
+        .portfolio-card:nth-child(4) { animation-delay: 0.6s; }
+        .portfolio-card:nth-child(5) { animation-delay: 0.7s; }
+
+        .portfolio-card:hover { transform: translateY(-5px); border-color: rgba(79, 70, 229, 0.5); box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
+        .portfolio-card h3 { font-size: 1.8rem; margin-bottom: 10px; }
+
+        /* DETAIL VIEWS */
+        #detail-view { display: none; padding-top: 150px; padding-bottom: 150px; }
+        .btn-back { background-color: transparent; color: white; border: 2px solid white; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 30px; transition: 0.3s; }
+        .btn-back:hover { background-color: white; color: black; }
+        .category-content { display: none; } 
+        .category-content.active { display: block; animation: fadeIn 0.4s ease-in-out;}
+
+        /* TABS */
+        .tab-buttons { display: flex; gap: 15px; margin: 30px 0; justify-content: center; flex-wrap: wrap; }
+        .tab-btn { background-color: var(--card-bg); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; }
+        .tab-btn.active { background-color: white; color: black; }
+        .inner-tab-content { display: none; }
+        .inner-tab-content.active { display: block; animation: fadeIn 0.3s; }
+
+        /* 3D GRID */
+        .bare-img-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 30px; }
+        .bare-img { width: 100%; border-radius: 12px; cursor: pointer; transition: 0.3s ease; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .bare-img:hover { transform: scale(1.05); box-shadow: 0 10px 25px var(--accent); }
+
+        /* MODAL */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); justify-content: center; align-items: center; }
+        .modal-content { max-width: 90%; max-height: 90%; border-radius: 12px; }
+        .close-modal { position: absolute; top: 30px; right: 40px; color: white; font-size: 50px; font-weight: bold; cursor: pointer; z-index: 2001; }
+
+        /* CAROUSEL ENGINE */
+        .ac-viewport { position: relative; width: 100%; overflow: hidden; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); border: 1px solid var(--border-low); }
+        .ac-container { display: flex; flex-wrap: nowrap; height: 100%; transition: transform 0.6s ease-in-out; will-change: transform; }
+        .ac-item { flex: 0 0 100%; width: 100%; height: 100%; object-fit: contain; flex-shrink: 0; display: block; }
+        .ac-pagination { display: flex; justify-content: center; gap: 12px; margin-top: 25px; }
+        .ac-dot { width: 12px; height: 12px; background-color: rgba(255,255,255,0.3); border-radius: 50%; cursor: pointer; transition: 0.3s ease; border: 2px solid transparent; }
+        .ac-dot:hover { background-color: rgba(255,255,255,0.6); }
+        .ac-dot.active { background-color: var(--accent); border-color: white; box-shadow: 0 0 10px var(--accent); transform: scale(1.2); }
+
+        /* SPECIFIC SIZING */
+        #cat-graphic .ac-viewport { max-height: 80vh; }
+#ac-flyers { max-width: 850px; margin: 0 auto; aspect-ratio: 11 / 10; height: auto; }
+#ac-flyers .ac-item { object-fit: contain; }
+        #ac-mailings { max-width: 500px; margin: 0 auto; aspect-ratio: 2209 / 2824; height: auto; max-height: 80vh; }
+        #ac-mailings .ac-item { object-fit: contain; }
+
+        .game-gallery-btns { display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; }
+        .btn-gallery { background: var(--card-bg); color: white; border: 1px solid var(--border-low); padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: bold;}
+        .btn-gallery.active { background: white; color: black; }
+        .game-sub-content { display: none; animation: fadeIn 0.3s; }
+        .game-sub-content.active { display: block; }
+        .game-video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; }
+        .game-video-item { width: 100%; border-radius: 16px; border: 1px solid var(--border-low); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+
+        .project-split { display: flex; gap: 40px; align-items: flex-start; margin-top: 30px; }
+        .project-carousel { flex: 1; max-width: 55%; }
+        #ac-websites { aspect-ratio: 16 / 9; height: auto; width: 100%; }
+        #ac-websites .ac-item { object-fit: cover; } 
+        .project-summary { flex: 1; background: var(--card-bg); padding: 40px; border-radius: 16px; border: 1px solid var(--border-low); }
+        .project-summary h2 { font-size: 2rem; margin-bottom: 15px; color: var(--accent); text-transform: uppercase;}
+        .project-summary ul { margin-left: 20px; margin-bottom: 30px; color: var(--text-muted); line-height: 1.8; }
+        .btn-visit { display: inline-block; background: var(--accent); color: white; padding: 15px 30px; border-radius: 8px; font-weight: bold; text-decoration: none; transition: 0.3s; box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4); text-transform: uppercase; letter-spacing: 1px;}
+
+        .anim-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; }
+        .anim-item { width: 100%; border-radius: 16px; border: 1px solid var(--border-low); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+
+      /* --- WEBSITES (WIDER CAROUSEL, CENTERED CARD) --- */
+        .project-split { display: flex; gap: 40px; align-items: center; margin-top: 30px; }
+        
+        /* Forces the carousel to take up 68% of the width */
+        .project-carousel { flex: 0 0 62%; max-width: 62%; }
+        #ac-websites { aspect-ratio: 16 / 9; height: auto; width: 100%; border-radius: 16px; }
+        #ac-websites .ac-item { object-fit: cover; } 
+        
+        /* Styles the card to match your mockup */
+        .project-summary { flex: 1; background: var(--card-bg); padding: 30px; border-radius: 16px; border: 1px solid var(--border-low); box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+        .project-summary h2 { font-size: 1.8rem; margin-bottom: 20px; color: var(--text-main); text-transform: uppercase; letter-spacing: 1px; }
+        
+        /* Creates the solid block of justified text */
+        .project-summary p { margin-bottom: 20px; color: var(--text-main); line-height: 1.6; text-align: justify; font-size: 1.05rem; }
+        
+        .btn-visit { display: inline-block; background: var(--accent); color: white; padding: 15px 30px; border-radius: 8px; font-weight: bold; text-decoration: none; transition: 0.3s; box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4); text-transform: uppercase; letter-spacing: 1px; width: 100%; text-align: center; margin-top: 10px;}
+        .btn-visit:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(79, 70, 229, 0.6); }
+
+        /* Keeps it responsive on mobile */
+        @media (max-width: 1024px) { 
+            .project-carousel { max-width: 100%; flex: 0 0 100%; } 
+            .project-split { flex-direction: column; align-items: stretch; } 
+        }
+
+        /* =========================================
+           ANIMATION KEYFRAMES
+           ========================================= */
+        @keyframes pageFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn { 
+            from { opacity: 0; } 
+            to { opacity: 1; } 
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About Me</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="resume.pdf" target="_blank">Curriculum</a> 
+    </nav>
+
+    <section id="portfolio-grid-section">
+        <h2>Portfolio</h2>
+        <p>Projects I completed at UTC, professional work, and personal developments.</p>
+        <div class="reel-container">
+            <video controls poster="poster_reel.jpg"><source src="reel.mp4" type="video/mp4"></video>
+        </div>
+        
+        <div class="portfolio-grid">
+            <div class="portfolio-card" onclick="openCategory('cat-3d')">
+                <h3>3D Modeling & Renders</h3>
+                <p>Hard-surface modeling, texturing, and lighting techniques utilizing Blender.</p>
+            </div>
+            <div class="portfolio-card" onclick="openCategory('cat-graphic')">
+                <h3>Graphic Design</h3>
+                <p>Corporate branding, digital marketing flyers, brochures, and dynamic video production.</p>
+            </div>
+            <div class="portfolio-card" onclick="openCategory('cat-games')">
+                <h3>Videogames</h3>
+                <p>Cross-platform 2D game development, featuring custom pixel-art and multiplayer mechanics.</p>
+            </div>
+            <div class="portfolio-card" onclick="openCategory('cat-web')">
+                <h3>Websites</h3>
+                <p>Responsive frontend development, UI/UX design, and Progressive Web Apps (PWA).</p>
+            </div>
+        
+        </div>
+    </section>
+
+    <div id="detail-view">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 5%;">
+            <button class="btn-back" onclick="goBackToPortfolio()">← Back to Portfolio</button>
+
+            <div id="cat-3d" class="category-content">
+                <h1 style="font-size: 3rem; margin-bottom: 10px;">3D Modeling & Renders</h1>
+                <p style="margin-bottom: 40px; color: var(--text-muted);">Click any image to view the 360° render video.</p>
+                <div class="bare-img-grid">
+                    <img src="aloe.jpg" class="bare-img" onclick="openModal('aloe-360.mp4')">
+                    <img src="elongata.jpg" class="bare-img" onclick="openModal('elongata-360.mp4')">
+                    <img src="cereus.jpg" class="bare-img" onclick="openModal('cereus-360.mp4')">
+                    <img src="echeveria.jpg" class="bare-img" onclick="openModal('echeveria-360.mp4')">
+                    <img src="echinocactus.jpg" class="bare-img" onclick="openModal('echinocactus-360.mp4')">
+                    <img src="haworthia.jpg" class="bare-img" onclick="openModal('haworthia-360.mp4')">
+                </div>
+            </div>
+
+           <div id="cat-graphic" class="category-content">
+                <h1 style="font-size: 3rem; margin-bottom: 10px;">Graphic Design</h1>
+                <p style="margin-bottom: 20px; color: var(--text-muted);">Digital marketing for In-Tech Automation.</p>
+                
+                <div class="tab-buttons">
+                    <button class="tab-btn active" onclick="openInnerTab(event, 'gd-mailings', 'gd-content')">Mailings</button>
+                    <button class="tab-btn" onclick="openInnerTab(event, 'gd-flyers', 'gd-content')">Flyers</button>
+                    <button class="tab-btn" onclick="openInnerTab(event, 'gd-brochure', 'gd-content')">Brochure</button>
+                    <button class="tab-btn" onclick="openInnerTab(event, 'gd-sig', 'gd-content')">Signature Animation</button>
+                </div>
+
+                <div id="gd-mailings" class="inner-tab-content gd-content active">
+                    <div class="ac-viewport" id="ac-mailings">
+                        <div class="ac-container">
+                            <img src="mailing1.jpg" class="ac-item">
+                            <img src="mailing2.jpg" class="ac-item">
+                            <img src="mailing3.jpg" class="ac-item">
+                            <img src="mailing4.jpg" class="ac-item">
+                        </div>
+                    </div>
+                    <div class="ac-pagination" id="pagi-mailings"></div>
+                </div>
+
+                <div id="gd-flyers" class="inner-tab-content gd-content">
+                    <div class="ac-viewport" id="ac-flyers">
+                        <div class="ac-container">
+                            <img src="flyer1.jpg" class="ac-item">
+                            <img src="flyer2.jpg" class="ac-item">
+                            <img src="flyer3.jpg" class="ac-item">
+                            <img src="flyer4.jpg" class="ac-item">
+                        </div>
+                    </div>
+                    <div class="ac-pagination" id="pagi-flyers"></div>
+                </div>
+
+                <div id="gd-brochure" class="inner-tab-content gd-content">
+                    <iframe src="brochure.pdf" width="100%" height="600px" style="border-radius:12px;"></iframe>
+                </div>
+                <div id="gd-sig" class="inner-tab-content gd-content">
+                    <div style="text-align: center;"><img src="signature.gif" style="border-radius:12px;"></div>
+                </div>
+            </div>
+
+            <div id="cat-games" class="category-content">
+                <h1 style="font-size: 3rem; margin-bottom: 10px;">Videogames</h1>
+                <p style="margin-bottom: 20px; color: var(--text-muted);">Custom 2D games: Moonwalk and Overdrived.</p>
+                <div class="tab-buttons">
+                    <button class="tab-btn active" onclick="openInnerTab(event, 'vg-img', 'vg-content')">Images</button>
+                    <button class="tab-btn" onclick="openInnerTab(event, 'vg-videos', 'vg-content')">Videos</button>
+                </div>
+
+                <div id="vg-img" class="inner-tab-content vg-content active">
+                    <div class="game-gallery-btns">
+                        <button class="btn-gallery active" id="btn-moonwalk" onclick="openGameGallery('moonwalk')">Moonwalk</button>
+                        <button class="btn-gallery" id="btn-overdrived" onclick="openGameGallery('overdrived')">Overdrived</button>
+                    </div>
+
+                    <div id="gallery-moonwalk" class="game-sub-content active">
+                        <div class="ac-viewport" id="ac-game-moon">
+                            <div class="ac-container">
+                                <img src="moonwalk1.jpg" class="ac-item">
+                                <img src="moonwalk2.jpg" class="ac-item">
+                                <img src="moonwalk3.jpg" class="ac-item">
+                                <img src="moonwalk4.jpg" class="ac-item">
+                            </div>
+                        </div>
+                        <div class="ac-pagination" id="pagi-game-moon"></div>
+                    </div>
+
+                    <div id="gallery-overdrived" class="game-sub-content">
+                        <div class="ac-viewport" id="ac-game-over">
+                            <div class="ac-container">
+                                <img src="overdrived1.jpg" class="ac-item">
+                                <img src="overdrived2.jpg" class="ac-item">
+                                <img src="overdrived3.jpg" class="ac-item">
+                                <img src="overdrived4.jpg" class="ac-item">
+                            </div>
+                        </div>
+                        <div class="ac-pagination" id="pagi-game-over"></div>
+                    </div>
+                </div>
+                
+                <div id="vg-videos" class="inner-tab-content vg-content">
+                    <div class="game-video-grid">
+                        <video class="game-video-item" controls><source src="moonwalk-video.mp4"></video>
+                        <video class="game-video-item" controls><source src="overdrived-video.mp4"></video>
+                    </div>
+                </div>
+            </div>
+
+           <div id="cat-web" class="category-content">
+                <h1 style="font-size: 3rem; margin-bottom: 10px;">Web Application</h1>
+                <p style="margin-bottom: 40px; color: var(--text-muted);">A mobile-first Progressive Web App (PWA) designed to log workouts, track body measurements, and manage Personal Records.</p>
+                
+                <div class="project-split">
+                    <div class="project-carousel">
+                        <div class="ac-viewport" id="ac-websites">
+                            <div class="ac-container">
+                                <img src="web_gym1.jpg" class="ac-item">
+                                <img src="web_gym2.jpg" class="ac-item">
+                                <img src="web_gym3.jpg" class="ac-item">
+                                <img src="web_gym4.jpg" class="ac-item">
+                                <img src="web_gym5.jpg" class="ac-item">
+                                <img src="web_gym6.jpg" class="ac-item">
+                            </div>
+                        </div>
+                        <div class="ac-pagination" id="pagi-websites"></div>
+                    </div>
+                    
+                    <div class="project-summary">
+                        <h2>Gym Tracker PWA</h2>
+                        <p>Built as a Progressive Web App (PWA) with custom Service Workers and a Web App Manifest, enabling seamless mobile installation and offline UI caching. The frontend features a responsive dark-theme and Glassmorphism design developed with HTML5, CSS3, and Vanilla JS, alongside dynamic data visualization using Chart.js.</p>
+                        
+                        <p>The backend is powered by PHP with a relational MySQL database for efficient management of user accounts, exercise catalogs, and workout history.</p>
+                        
+                        <a href="https://emror.infinityfreeapp.com" target="_blank" class="btn-visit">Visit Live App</a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="cat-animations" class="category-content">
+                <h1 style="font-size: 3rem; margin-bottom: 10px;">Animations / Motion Graphics</h1>
+                <p style="margin-bottom: 40px; color: var(--text-muted);">A showcase of kinetic typography, visual effects, and 3D looping animations.</p>
+                <div class="anim-grid">
+                    <video class="anim-item" controls><source src="animation1.mp4"></video>
+                    <video class="anim-item" controls><source src="animation2.mp4"></video>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="videoModal" class="modal">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <video id="modalVideo" class="modal-content" controls autoplay><source src="" type="video/mp4"></video>
+    </div>
+
+    <script>
+        function openCategory(categoryId) {
+            document.getElementById('portfolio-grid-section').style.display = 'none';
+            document.getElementById('detail-view').style.display = 'block';
+            let contents = document.getElementsByClassName('category-content');
+            for(let i=0; i<contents.length; i++) { contents[i].classList.remove('active'); }
+            document.getElementById(categoryId).classList.add('active');
+            window.scrollTo(0,0);
+            initAllCarousels();
+        }
+
+        function goBackToPortfolio() {
+            document.getElementById('detail-view').style.display = 'none';
+            document.getElementById('portfolio-grid-section').style.display = 'block';
+            stopAllCarousels();
+            window.scrollTo(0,0);
+        }
+
+        function openInnerTab(evt, tabId, contentClassName) {
+            let contents = document.getElementsByClassName(contentClassName);
+            for(let i=0; i<contents.length; i++) { contents[i].classList.remove('active'); }
+            let btns = evt.currentTarget.parentElement.getElementsByClassName('tab-btn');
+            for(let i=0; i<btns.length; i++) { btns[i].classList.remove('active'); }
+            document.getElementById(tabId).classList.add('active');
+            evt.currentTarget.classList.add('active');
+            
+            if(tabId === 'vg-img'){ document.querySelector('#btn-moonwalk').click(); }
+        }
+
+        function openGameGallery(gameId) {
+            document.querySelectorAll('.btn-gallery').forEach(btn => btn.classList.remove('active'));
+            if(gameId === 'moonwalk'){ document.querySelector('#btn-moonwalk').classList.add('active'); }
+            else { document.querySelector('#btn-overdrived').classList.add('active'); }
+
+            document.querySelectorAll('.game-sub-content').forEach(content => content.classList.remove('active'));
+            if(gameId === 'moonwalk'){ document.getElementById('gallery-moonwalk').classList.add('active'); }
+            else { document.getElementById('gallery-overdrived').classList.add('active'); }
+            
+            initAllCarousels();
+        }
+
+        function openModal(videoSrc) {
+            document.getElementById("videoModal").style.display = "flex";
+            let videoElement = document.getElementById("modalVideo");
+            videoElement.src = videoSrc; videoElement.load(); videoElement.play();
+        }
+        function closeModal() {
+            document.getElementById("videoModal").style.display = "none";
+            let videoElement = document.getElementById("modalVideo");
+            videoElement.pause(); videoElement.src = "";
+        }
+
+        class AutoCarousel {
+            constructor(viewportId, paginationId, interval = 4000) {
+                this.viewport = document.getElementById(viewportId);
+                if (!this.viewport) return; 
+                this.container = this.viewport.querySelector(".ac-container");
+                this.items = this.container.querySelectorAll(".ac-item");
+                this.pagination = document.getElementById(paginationId);
+                this.index = 0;
+                this.interval = interval;
+                this.timer = null;
+
+                this.initDots();
+                this.initClicks();
+                this.update(); 
+                this.start();
+
+                this.viewport.addEventListener("mouseenter", () => this.stop());
+                this.viewport.addEventListener("mouseleave", () => this.start());
+            }
+
+            initDots() {
+                this.pagination.innerHTML = "";
+                this.items.forEach((_, i) => {
+                    const dot = document.createElement("div");
+                    dot.classList.add("ac-dot");
+                    if (i === 0) dot.classList.add("active");
+
+                    dot.addEventListener("click", () => {
+                        this.goTo(i);
+                        this.restart();
+                    });
+                    this.pagination.appendChild(dot);
+                });
+                this.dots = this.pagination.querySelectorAll(".ac-dot");
+            }
+
+            initClicks() {
+                this.viewport.addEventListener("click", (e) => {
+                    const rect = this.viewport.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const middle = rect.width / 2;
+
+                    if (x < middle) { this.prev(); } else { this.next(); }
+                    this.restart();
+                });
+            }
+
+            update() {
+                this.container.style.transform = `translateX(-${this.index * 100}%)`;
+                this.dots.forEach(d => d.classList.remove("active"));
+                this.dots[this.index].classList.add("active");
+            }
+
+            next() {
+                if (this.viewport.offsetWidth === 0) return;
+                this.index++;
+                if (this.index >= this.items.length) { this.index = 0; }
+                this.update();
+            }
+
+            prev() {
+                this.index--;
+                if (this.index < 0) { this.index = this.items.length - 1; }
+                this.update();
+            }
+
+            goTo(i) {
+                this.index = i;
+                this.update();
+            }
+
+            start() {
+                if (this.timer) return;
+                this.timer = setInterval(() => { this.next(); }, this.interval);
+            }
+
+            stop() {
+                clearInterval(this.timer);
+                this.timer = null;
+            }
+
+            restart() {
+                this.stop();
+                this.start();
+            }
+        }
+
+        function initAllCarousels() {
+            stopAllCarousels(); 
+            if (document.getElementById('ac-flyers')) new AutoCarousel("ac-flyers", "pagi-flyers", 4000);
+            if (document.getElementById('ac-mailings')) new AutoCarousel("ac-mailings", "pagi-mailings", 4000);
+            if (document.getElementById('gallery-moonwalk') && document.getElementById('gallery-moonwalk').classList.contains('active')) {
+                new AutoCarousel("ac-game-moon", "pagi-game-moon", 4000);
+            }
+            if (document.getElementById('gallery-overdrived') && document.getElementById('gallery-overdrived').classList.contains('active')) {
+                new AutoCarousel("ac-game-over", "pagi-game-over", 4000);
+            }
+            if (document.getElementById('ac-websites')) new AutoCarousel("ac-websites", "pagi-websites", 4000);
+        }
+
+        function stopAllCarousels() {
+           // Handled naturally by the class instantiations, but safe to leave here for logic breaks
+        }
+    </script>
+</body>
+</html>
