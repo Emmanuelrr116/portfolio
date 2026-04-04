@@ -17,9 +17,13 @@
             animation: pageFadeIn 0.5s ease-out;
         }
         
-        nav { position: fixed; top: 0; width: 100%; display: flex; justify-content: flex-end; gap: 30px; padding: 25px 5%; background: #1a1a1a; z-index: 1000; }
+        nav { position: fixed; top: 0; width: 100%; display: flex; justify-content: flex-end; align-items: center; gap: 30px; padding: 25px 5%; background: #1a1a1a; z-index: 1000; }
         nav a { color: white; text-decoration: none; font-weight: 600; text-transform: uppercase; font-size: 0.9rem; transition: color 0.3s; }
         nav a:hover { color: var(--accent); }
+
+        /* Styling for the language toggle button */
+        #lang-toggle { background: transparent; color: white; border: 1px solid white; padding: 5px 10px; border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        #lang-toggle:hover { background: white; color: black; }
 
         /* PORTFOLIO GRID */
         #portfolio-grid-section { padding: 150px 5% 100px 5%; }
@@ -72,9 +76,6 @@
         .inner-tab-content { display: none; }
         .inner-tab-content.active { display: block; animation: fadeIn 0.3s; }
 
-        /* 3D GRID */
-      
-
         /* MODAL */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); justify-content: center; align-items: center; }
         .modal-content { max-width: 90%; max-height: 90%; border-radius: 12px; }
@@ -91,8 +92,8 @@
 
         /* SPECIFIC SIZING */
         #cat-graphic .ac-viewport { max-height: 80vh; }
-#ac-flyers { max-width: 850px; margin: 0 auto; aspect-ratio: 11 / 10; height: auto; }
-#ac-flyers .ac-item { object-fit: contain; }
+        #ac-flyers { max-width: 850px; margin: 0 auto; aspect-ratio: 11 / 10; height: auto; }
+        #ac-flyers .ac-item { object-fit: contain; }
         #ac-mailings { max-width: 500px; margin: 0 auto; aspect-ratio: 2209 / 2824; height: auto; max-height: 80vh; }
         #ac-mailings .ac-item { object-fit: contain; }
 
@@ -104,8 +105,6 @@
         .game-video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; }
         .game-video-item { width: 100%; border-radius: 16px; border: 1px solid var(--border-low); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
 
-        .project-split { display: flex; gap: 40px; align-items: flex-start; margin-top: 30px; }
-        .project-carousel { flex: 1; max-width: 55%; }
         /* --- WEBSITES (MOBILE-FIRST CAROUSEL) --- */
         #ac-websites { 
             aspect-ratio: 9 / 16; 
@@ -118,31 +117,25 @@
         #ac-websites .ac-item { 
             object-fit: cover; 
         }
-        .project-summary { flex: 1; background: var(--card-bg); padding: 40px; border-radius: 16px; border: 1px solid var(--border-low); }
-        .project-summary h2 { font-size: 2rem; margin-bottom: 15px; color: var(--accent); text-transform: uppercase;}
-        .project-summary ul { margin-left: 20px; margin-bottom: 30px; color: var(--text-muted); line-height: 1.8; }
-        .btn-visit { display: inline-block; background: var(--accent); color: white; padding: 15px 30px; border-radius: 8px; font-weight: bold; text-decoration: none; transition: 0.3s; box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4); text-transform: uppercase; letter-spacing: 1px;}
-
+        
         .anim-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; }
         .anim-item { width: 100%; border-radius: 16px; border: 1px solid var(--border-low); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
 
-      /* --- WEBSITES (WIDER CAROUSEL, CENTERED CARD) --- */
+        /* --- WEBSITES (WIDER CAROUSEL, CENTERED CARD) --- */
        .project-split { 
             display: flex; 
-            gap: 60px; /* Increased the gap slightly for better breathing room */
+            gap: 60px;
             align-items: center; 
-            justify-content: center; /* This centers the phone and text box together */
+            justify-content: center; 
             margin-top: 30px; 
         }
         
         /* Makes the carousel the size of a mobile phone */
         .project-carousel { flex: 0 0 28%; max-width: 320px; }
         
-        
         /* Styles the card to match your mockup */
         .project-summary { 
-            /* Removed flex: 1; */
-            max-width: 500px; /* This makes the box much narrower! */
+            max-width: 500px;
             width: 100%;
             background: var(--card-bg); 
             padding: 40px; 
@@ -186,64 +179,101 @@
         .bare-img-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 30px; }
         
         .model-image { 
-            width: 100%; /* This forces the image to fit inside the grid column! */
+            width: 100%;
             border-radius: 12px; 
             cursor: pointer; 
             transition: transform 0.2s ease, box-shadow 0.2s ease; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
-            object-fit: cover; /* Prevents stretching */
-            aspect-ratio: 4 / 3; /* Makes all your renders nice, uniform rectangles */
+            object-fit: cover; 
+            aspect-ratio: 4 / 3; 
         }
         
         .model-image:hover { 
             transform: scale(1.03); 
             box-shadow: 0 10px 25px var(--accent); 
         }
+
+        /* Default State: Hide all Spanish text */
+        .lang-es { 
+            display: none; 
+        }
+
+        /* Toggled State: Hide English, Show Spanish */
+        body.spanish-active .lang-en { 
+            display: none; 
+        }
+        body.spanish-active .lang-es { 
+            display: block; 
+        }
     </style>
 </head>
 <body>
     <nav>
-        <a href="index.html">Home</a>
-        <a href="about.html">About Me</a>
-        <a href="portfolio.html">Portfolio</a>
-        <a href="resume.pdf" target="_blank">Curriculum</a> 
+        <a href="index.html" class="lang-en">Home</a>
+        <a href="about.html" class="lang-en">About Me</a>
+        <a href="portfolio.html" class="lang-en">Portfolio</a>
+        <a href="resume.pdf" target="_blank" class="lang-en">Curriculum</a> 
+        
+        <a href="index.html" class="lang-es">Inicio</a>
+        <a href="about.html" class="lang-es">Sobre Mí</a>
+        <a href="portfolio.html" class="lang-es">Portafolio</a>
+        <a href="resume.pdf" target="_blank" class="lang-es">Currículum</a> 
+        
+        <button id="lang-toggle">ESP</button>
     </nav>
 
     <section id="portfolio-grid-section">
-        <h2>Portfolio</h2>
-        <p>Projects I completed at UTC, professional work, and personal developments.</p>
+        <h2 class="lang-en">Portfolio</h2>
+        <h2 class="lang-es">Portafolio</h2>
+        <p class="lang-en">Projects I completed at UTC, professional work, and personal developments.</p>
+        <p class="lang-es">Proyectos que realicé en la UTC, trabajos profesionales y desarrollos personales.</p>
+        
         <div class="reel-container">
             <video controls poster="poster_reel.jpg"><source src="reel.mp4" type="video/mp4"></video>
         </div>
         
         <div class="portfolio-grid">
             <div class="portfolio-card" onclick="openCategory('cat-3d')">
-                <h3>3D Modeling & Renders</h3>
-                <p>Hard-surface modeling, texturing, and lighting techniques utilizing Blender.</p>
+                <h3 class="lang-en">3D Modeling & Renders</h3>
+                <h3 class="lang-es">Modelado 3D y Renders</h3>
+              <p class="lang-en">3D botanical models created in Blender and optimized for Augmented Reality apps.</p>
+                <p class="lang-es">Modelos botánicos en 3D creados en Blender y optimizados para apps de Realidad Aumentada.</p>
             </div>
             <div class="portfolio-card" onclick="openCategory('cat-graphic')">
-                <h3>Graphic Design</h3>
-                <p>Corporate branding, digital marketing flyers, brochures, and dynamic video production.</p>
+                <h3 class="lang-en">Graphic Design</h3>
+                <h3 class="lang-es">Diseño Gráfico</h3>
+                <p class="lang-en">Corporate branding, digital marketing flyers, brochures, and dynamic signature.</p>
+                <p class="lang-es">Identidad corporativa, flyers de marketing digital, folletos y firma dinámica.</p>
             </div>
             <div class="portfolio-card" onclick="openCategory('cat-games')">
-                <h3>Videogames</h3>
-                <p>Cross-platform 2D game development, featuring custom pixel-art and multiplayer mechanics.</p>
+                <h3 class="lang-en">Videogames</h3>
+                <h3 class="lang-es">Videojuegos</h3>
+                <p class="lang-en">Cross-platform 2D game development, featuring custom pixel-art and multiplayer mechanics.</p>
+                <p class="lang-es">Desarrollo de juegos 2D multiplataforma, con pixel-art personalizado y mecánicas multijugador.</p>
             </div>
             <div class="portfolio-card" onclick="openCategory('cat-web')">
-                <h3>Website</h3>
-                <p>Responsive frontend development, UI/UX design, and Progressive Web App (PWA).</p>
+                <h3 class="lang-en">Website</h3>
+                <h3 class="lang-es">Sitio Web</h3>
+                <p class="lang-en">Responsive frontend development, UI/UX design, and Progressive Web App (PWA).</p>
+                <p class="lang-es">Desarrollo frontend responsivo, diseño UI/UX y Aplicación Web Progresiva (PWA).</p>
             </div>
-        
         </div>
     </section>
 
     <div id="detail-view">
         <div style="max-width: 1200px; margin: 0 auto; padding: 0 5%;">
-            <button class="btn-back" onclick="goBackToPortfolio()">← Back to Portfolio</button>
+            <button class="btn-back" onclick="goBackToPortfolio()">
+                <span class="lang-en">← Back to Portfolio</span>
+                <span class="lang-es">← Volver al Portafolio</span>
+            </button>
 
             <div id="cat-3d" class="category-content">
-                <h1 style="font-size: 3rem; margin-bottom: 10px;">3D Modeling & Renders</h1>
-                <p style="margin-bottom: 40px; color: var(--text-muted);">A collection of hard-surface models, textured and lit using Blender. Click any image to view the high-resolution render.</p>
+                <h1 style="font-size: 3rem; margin-bottom: 10px;" class="lang-en">3D Modeling & Renders</h1>
+                <h1 style="font-size: 3rem; margin-bottom: 10px;" class="lang-es">Modelado 3D y Renders</h1>
+                
+                <p style="margin-bottom: 40px; color: var(--text-muted);" class="lang-en">3D botanical models created in Blender, specifically optimized for real-time rendering in an augmented reality (AR) environment. Click any image to expand.</p>
+                <p style="margin-bottom: 40px; color: var(--text-muted);" class="lang-es">Modelos botánicos en 3D creados en Blender, optimizados específicamente para renderizado en tiempo real en un entorno de realidad aumentada (AR). Haz clic en cualquier imagen para expandirla.</p>
+                
                 <div class="bare-img-grid">
                    <img src="aloe.jpg" class="model-image" alt="Aloe 3D Model">
                     <img src="elongata.jpg" class="model-image" alt="Elongata 3D Model">
@@ -254,15 +284,24 @@
                 </div>
             </div>
 
-           <div id="cat-graphic" class="category-content">
-                <h1 style="font-size: 3rem; margin-bottom: 10px;">Graphic Design</h1>
-                <p style="margin-bottom: 20px; color: var(--text-muted);">Digital marketing for In-Tech Automation.</p>
+            <div id="cat-graphic" class="category-content">
+                <h1 style="font-size: 3rem; margin-bottom: 10px;" class="lang-en">Graphic Design</h1>
+                <h1 style="font-size: 3rem; margin-bottom: 10px;" class="lang-es">Diseño Gráfico</h1>
+                
+                <p style="margin-bottom: 20px; color: var(--text-muted);" class="lang-en">Digital marketing for In-Tech Automation.</p>
+                <p style="margin-bottom: 20px; color: var(--text-muted);" class="lang-es">Marketing digital para In-Tech Automation.</p>
                 
                 <div class="tab-buttons">
                     <button class="tab-btn active" onclick="openInnerTab(event, 'gd-mailings', 'gd-content')">Mailings</button>
                     <button class="tab-btn" onclick="openInnerTab(event, 'gd-flyers', 'gd-content')">Flyers</button>
-                    <button class="tab-btn" onclick="openInnerTab(event, 'gd-brochure', 'gd-content')">Brochure</button>
-                    <button class="tab-btn" onclick="openInnerTab(event, 'gd-sig', 'gd-content')">Signature Animation</button>
+                    <button class="tab-btn" onclick="openInnerTab(event, 'gd-brochure', 'gd-content')">
+                        <span class="lang-en">Brochure</span>
+                        <span class="lang-es">Folleto</span>
+                    </button>
+                    <button class="tab-btn" onclick="openInnerTab(event, 'gd-sig', 'gd-content')">
+                        <span class="lang-en">Signature Animation</span>
+                        <span class="lang-es">Firma Animada</span>
+                    </button>
                 </div>
 
                 <div id="gd-mailings" class="inner-tab-content gd-content active">
@@ -298,10 +337,17 @@
             </div>
 
             <div id="cat-games" class="category-content">
-                <h1 style="font-size: 3rem; margin-bottom: 10px;">Videogames</h1>
-                <p style="margin-bottom: 20px; color: var(--text-muted);">Custom 2D games: Moonwalk and Overdrived.</p>
+                <h1 style="font-size: 3rem; margin-bottom: 10px;" class="lang-en">Videogames</h1>
+                <h1 style="font-size: 3rem; margin-bottom: 10px;" class="lang-es">Videojuegos</h1>
+                
+                <p style="margin-bottom: 20px; color: var(--text-muted);" class="lang-en">Custom 2D games: Moonwalk and Overdrived.</p>
+                <p style="margin-bottom: 20px; color: var(--text-muted);" class="lang-es">Juegos 2D personalizados: Moonwalk y Overdrived.</p>
+                
                 <div class="tab-buttons">
-                    <button class="tab-btn active" onclick="openInnerTab(event, 'vg-img', 'vg-content')">Images</button>
+                    <button class="tab-btn active" onclick="openInnerTab(event, 'vg-img', 'vg-content')">
+                        <span class="lang-en">Images</span>
+                        <span class="lang-es">Imágenes</span>
+                    </button>
                     <button class="tab-btn" onclick="openInnerTab(event, 'vg-videos', 'vg-content')">Videos</button>
                 </div>
 
@@ -344,9 +390,12 @@
                 </div>
             </div>
 
-           <div id="cat-web" class="category-content">
-                <h1 style="font-size: 3rem; margin-bottom: 10px;">Web Application</h1>
-                <p style="margin-bottom: 40px; color: var(--text-muted);">A mobile-first Progressive Web App (PWA) designed to log workouts, track body measurements, and manage Personal Records.</p>
+            <div id="cat-web" class="category-content">
+                <h1 style="font-size: 3rem; margin-bottom: 10px;" class="lang-en">Web Application</h1>
+                <h1 style="font-size: 3rem; margin-bottom: 10px;" class="lang-es">Aplicación Web</h1>
+                
+                <p style="margin-bottom: 40px; color: var(--text-muted);" class="lang-en">A mobile-first Progressive Web App (PWA) designed to log workouts, track body measurements, and manage Personal Records.</p>
+                <p style="margin-bottom: 40px; color: var(--text-muted);" class="lang-es">Una Aplicación Web Progresiva (PWA) mobile-first diseñada para registrar entrenamientos, seguir medidas corporales y administrar Récords Personales.</p>
                 
                 <div class="project-split">
                     <div class="project-carousel">
@@ -365,18 +414,27 @@
                     
                     <div class="project-summary">
                         <h2>Gym Tracker PWA</h2>
-                        <p>Built as a Progressive Web App (PWA) with custom Service Workers and a Web App Manifest, enabling seamless mobile installation and offline UI caching. The frontend features a responsive dark-theme and Glassmorphism design developed with HTML5, CSS3, and Vanilla JS, alongside dynamic data visualization using Chart.js.</p>
                         
-                        <p>The backend is powered by PHP with a relational MySQL database for efficient management of user accounts, exercise catalogs, and workout history.</p>
+                      <div class="lang-en">
+    <p>A Progressive Web App (PWA) built with PHP, MySQL, and Vanilla JS for efficient workout and PR tracking. It features seamless mobile installation, offline caching, a responsive Glassmorphism UI, and dynamic data visualization using Chart.js.</p>
+    <a href="https://emror.infinityfreeapp.com" target="_blank" class="btn-visit">Visit Live App</a>
+</div>
                         
-                        <a href="https://emror.infinityfreeapp.com" target="_blank" class="btn-visit">Visit Live App</a>
+<div class="lang-es">
+    <p>Aplicación Web Progresiva (PWA) desarrollada con PHP, MySQL y Vanilla JS para el registro eficiente de entrenamientos. Cuenta con instalación nativa en móviles, caché sin conexión, una interfaz responsiva con diseño Glassmorphism y visualización dinámica de datos mediante Chart.js.</p>
+    <a href="https://emror.infinityfreeapp.com" target="_blank" class="btn-visit">Visitar App en Vivo</a>
+</div>
                     </div>
                 </div>
             </div>
 
             <div id="cat-animations" class="category-content">
-                <h1 style="font-size: 3rem; margin-bottom: 10px;">Animations / Motion Graphics</h1>
-                <p style="margin-bottom: 40px; color: var(--text-muted);">A showcase of kinetic typography, visual effects, and 3D looping animations.</p>
+                <h1 style="font-size: 3rem; margin-bottom: 10px;" class="lang-en">Animations / Motion Graphics</h1>
+                <h1 style="font-size: 3rem; margin-bottom: 10px;" class="lang-es">Animaciones / Motion Graphics</h1>
+                
+                <p style="margin-bottom: 40px; color: var(--text-muted);" class="lang-en">A showcase of kinetic typography, visual effects, and 3D looping animations.</p>
+                <p style="margin-bottom: 40px; color: var(--text-muted);" class="lang-es">Una muestra de tipografía cinética, efectos visuales y animaciones 3D en bucle.</p>
+                
                 <div class="anim-grid">
                     <video class="anim-item" controls><source src="animation1.mp4"></video>
                     <video class="anim-item" controls><source src="animation2.mp4"></video>
@@ -389,10 +447,12 @@
         <span class="close-modal" onclick="closeModal()">&times;</span>
         <video id="modalVideo" class="modal-content" controls autoplay><source src="" type="video/mp4"></video>
     </div>
-<div id="imageModal" class="modal">
+    
+    <div id="imageModal" class="modal">
         <span class="close-modal" id="closeImageModal">&times;</span>
         <img class="modal-content" id="expandedImg">
     </div>
+    
     <script>
         function openCategory(categoryId) {
             document.getElementById('portfolio-grid-section').style.display = 'none';
@@ -439,12 +499,14 @@
             let videoElement = document.getElementById("modalVideo");
             videoElement.src = videoSrc; videoElement.load(); videoElement.play();
         }
+        
         function closeModal() {
             document.getElementById("videoModal").style.display = "none";
             let videoElement = document.getElementById("modalVideo");
             videoElement.pause(); videoElement.src = "";
            }
-            // --- IMAGE LIGHTBOX LOGIC ---
+           
+        // --- IMAGE LIGHTBOX LOGIC ---
         const imgModal = document.getElementById("imageModal");
         const expandedImg = document.getElementById("expandedImg");
         const closeImageModal = document.getElementById("closeImageModal");
@@ -470,8 +532,6 @@
             }
         });
         
-        
-
         class AutoCarousel {
             constructor(viewportId, paginationId, interval = 4000) {
                 this.viewport = document.getElementById(viewportId);
@@ -575,7 +635,28 @@
         function stopAllCarousels() {
            // Handled naturally by the class instantiations, but safe to leave here for logic breaks
         }
+
+        // --- LANGUAGE TOGGLE LOGIC WITH LOCAL STORAGE ---
+        const langToggleBtn = document.getElementById("lang-toggle");
+
+        // 1. When the page loads, check if the user already chose Spanish
+        if (localStorage.getItem("portfolioLang") === "spanish") {
+            document.body.classList.add("spanish-active");
+            langToggleBtn.textContent = "ENG";
+        }
+
+        // 2. What happens when they click the button
+        langToggleBtn.addEventListener("click", function() {
+            document.body.classList.toggle("spanish-active");
+
+            if (document.body.classList.contains("spanish-active")) {
+                langToggleBtn.textContent = "ENG";
+                localStorage.setItem("portfolioLang", "spanish"); // Save choice to browser memory
+            } else {
+                langToggleBtn.textContent = "ESP";
+                localStorage.setItem("portfolioLang", "english"); // Save choice to browser memory
+            }
+        });
     </script>
-   
 </body>
 </html>

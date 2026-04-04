@@ -18,9 +18,14 @@
             animation: pageFadeIn 0.5s ease-out;
         }
 
-        nav { position: fixed; top: 0; width: 100%; display: flex; justify-content: flex-end; gap: 30px; padding: 25px 5%; background: #1a1a1a; z-index: 1000; }
+        nav { position: fixed; top: 0; width: 100%; display: flex; justify-content: flex-end; align-items: center; gap: 30px; padding: 25px 5%; background: #1a1a1a; z-index: 1000; }
         nav a { color: white; text-decoration: none; font-weight: 600; text-transform: uppercase; font-size: 0.9rem; transition: color 0.3s; }
         nav a:hover { color: var(--accent); }
+        
+        /* Added styling for the language toggle button */
+        #lang-toggle { background: transparent; color: white; border: 1px solid white; padding: 5px 10px; border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        #lang-toggle:hover { background: white; color: black; }
+
         section { padding: 100px 5% 50px 5%; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
 
         #home { background-color: #f4f5f6; color: #000000; position: relative; min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
@@ -84,14 +89,37 @@
             from { opacity: 0; transform: translateY(40px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* =========================================
+           BILINGUAL LIGHT SWITCH CSS
+           ========================================= */
+        /* Default State: Hide all Spanish text */
+        .lang-es { 
+            display: none; 
+        }
+
+        /* Toggled State: Hide English, Show Spanish */
+        body.spanish-active .lang-en { 
+            display: none; 
+        }
+        body.spanish-active .lang-es { 
+            display: block; 
+        }
     </style>
 </head>
 <body>
     <nav>
-        <a href="index.html">Home</a>
-        <a href="about.html">About Me</a>
-        <a href="portfolio.html">Portfolio</a>
-        <a href="resume.pdf" target="_blank">Curriculum</a> 
+        <a href="index.html" class="lang-en">Home</a>
+        <a href="about.html" class="lang-en">About Me</a>
+        <a href="portfolio.html" class="lang-en">Portfolio</a>
+        <a href="resume.pdf" target="_blank" class="lang-en">Curriculum</a> 
+        
+        <a href="index.html" class="lang-es">Inicio</a>
+        <a href="about.html" class="lang-es">Sobre Mí</a>
+        <a href="portfolio.html" class="lang-es">Portafolio</a>
+        <a href="resume.pdf" target="_blank" class="lang-es">Currículum</a> 
+        
+        <button id="lang-toggle">ESP</button>
     </nav>
 
     <section id="home">
@@ -101,14 +129,51 @@
             <img src="desk-setup.jpg" alt="Design Setup" class="hero-left-image">
             <div class="hero-text-wrapper">
                 <p class="hero-name">EMMANUEL RODRÍGUEZ</p>
-                <div class="hero-box"><h1>PORTFOLIO</h1></div>
-                <div class="hero-roles">
-                    <h3>GRAPHIC DESIGNER</h3>
-                    <h3>GAME DEVELOPER</h3>
-                    <h3>FRONT-END DEVELOPER</h3>
+                
+                <div class="lang-en">
+                    <div class="hero-box"><h1>PORTFOLIO</h1></div>
+                    <div class="hero-roles">
+                        <h3>GRAPHIC DESIGNER</h3>
+                        <h3>GAME DEVELOPER</h3>
+                        <h3>FRONT-END DEVELOPER</h3>
+                    </div>
                 </div>
+
+                <div class="lang-es">
+                    <div class="hero-box"><h1>PORTAFOLIO</h1></div>
+                    <div class="hero-roles">
+                        <h3>DISEÑADOR GRÁFICO</h3>
+                        <h3>DESARROLLADOR DE VIDEOJUEGOS</h3>
+                        <h3>DESARROLLADOR FRONT-END</h3>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
+
+    <script>
+        // --- LANGUAGE TOGGLE LOGIC WITH LOCAL STORAGE ---
+        const langToggleBtn = document.getElementById("lang-toggle");
+
+        // 1. When the page loads, check if the user already chose Spanish
+        if (localStorage.getItem("portfolioLang") === "spanish") {
+            document.body.classList.add("spanish-active");
+            langToggleBtn.textContent = "ENG";
+        }
+
+        // 2. What happens when they click the button
+        langToggleBtn.addEventListener("click", function() {
+            document.body.classList.toggle("spanish-active");
+
+            if (document.body.classList.contains("spanish-active")) {
+                langToggleBtn.textContent = "ENG";
+                localStorage.setItem("portfolioLang", "spanish"); // Save choice to browser memory
+            } else {
+                langToggleBtn.textContent = "ESP";
+                localStorage.setItem("portfolioLang", "english"); // Save choice to browser memory
+            }
+        });
+    </script>
 </body>
 </html>

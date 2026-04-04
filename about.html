@@ -27,6 +27,7 @@
             width: 100%; 
             display: flex; 
             justify-content: flex-end; 
+            align-items: center;
             gap: 30px; 
             padding: 25px 5%; 
             background: #1a1a1a; 
@@ -41,6 +42,10 @@
             transition: color 0.3s; 
         }
         nav a:hover { color: var(--accent); }
+
+        /* Styling for the language toggle button */
+        #lang-toggle { background: transparent; color: white; border: 1px solid white; padding: 5px 10px; border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        #lang-toggle:hover { background: white; color: black; }
         
         /* --- ABOUT ME SECTION SPECIFIC CSS --- */
         #about { 
@@ -74,7 +79,6 @@
             margin: 0 auto; 
             position: relative; 
             z-index: 2; 
-            /* NEW: Entrance Animation */
             animation: fadeUp 0.8s ease-out forwards;
         }
         
@@ -86,15 +90,12 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
             flex-shrink: 0; 
             transition: all 0.4s ease;
-            /* NEW: Continuous Breathing Animation */
             animation: floatPulse 4s ease-in-out infinite;
         }
 
-        /* NEW: Hover effect for the photo */
         .about-photo:hover {
             transform: scale(1.05) translateY(-5px);
             box-shadow: 0 20px 50px rgba(79, 70, 229, 0.6);
-            /* Pauses the floating when you put the mouse over it */
             animation-play-state: paused; 
         }
         
@@ -115,7 +116,7 @@
         }
 
         /* =========================================
-           NEW ANIMATION KEYFRAMES
+           ANIMATION KEYFRAMES
            ========================================= */
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(40px); }
@@ -144,14 +145,28 @@
             .about-text p { font-size: 1.1rem; text-align: left; } 
             .about-fingerprint { width: 400px; height: 400px; right: -120px; bottom: -50px; opacity: 0.4; }
         }
+
+        /* =========================================
+           BILINGUAL LIGHT SWITCH CSS
+           ========================================= */
+        .lang-es { display: none; }
+        body.spanish-active .lang-en { display: none; }
+        body.spanish-active .lang-es { display: block; }
     </style>
 </head>
 <body>
     <nav>
-        <a href="index.html">Home</a>
-        <a href="about.html">About Me</a>
-        <a href="portfolio.html">Portfolio</a>
-        <a href="resume.pdf" target="_blank">Curriculum</a> 
+        <a href="index.html" class="lang-en">Home</a>
+        <a href="about.html" class="lang-en">About Me</a>
+        <a href="portfolio.html" class="lang-en">Portfolio</a>
+        <a href="resume.pdf" target="_blank" class="lang-en">Curriculum</a> 
+        
+        <a href="index.html" class="lang-es">Inicio</a>
+        <a href="about.html" class="lang-es">Sobre Mí</a>
+        <a href="portfolio.html" class="lang-es">Portafolio</a>
+        <a href="resume.pdf" target="_blank" class="lang-es">Currículum</a> 
+        
+        <button id="lang-toggle">ESP</button>
     </nav>
 
     <section id="about">
@@ -159,16 +174,48 @@
 
         <div class="about-container">
             <img src="your-photo.png" alt="Emmanuel Rodríguez" class="about-photo">
+            
             <div class="about-text">
-                <h2>I'm Emmanuel Rodríguez</h2>
-                <p>I'm currently in my 10th term studying Information Technology Engineering, focused on Virtual Environments and Digital Business, at UTC. My main focus is on graphic design, with experience in front-end development.           
+                <div class="lang-en">
+                    <h2>I'm Emmanuel Rodríguez</h2>
+                    <p>I'm currently in my 10th term studying Information Technology Engineering, focused on Virtual Environments and Digital Business, at UTC. My main focus is on graphic design, with experience in front-end development.</p>
+                    <p>I work with tools such as Photoshop, Blender, After Effects, and Premiere Pro, along with a solid foundation in HTML, CSS, and JavaScript. In my free time, I enjoy learning new software tools, building and optimizing custom PCs, and relaxing while playing video games.</p>
+                    <p>I'm a fast learner, a strong team player, and I'm currently looking for an internship opportunity as a junior graphic designer or front-end developer where I can continue growing and developing my skills.</p>
+                </div>
 
-<p>I work with tools such as Photoshop, Blender, After Effects, and Premiere Pro, along with a solid foundation in HTML, CSS, and JavaScript. In my free time, I enjoy learning new software tools, building and optimizing custom PCs, and relaxing while playing video games.</p>
-
-<p>I'm a fast learner, a strong team player, and I'm currently looking for an internship opportunity as a junior graphic designer or front-end developer where I can continue growing and developing my skills.</p>
-              
+                <div class="lang-es">
+                    <h2>Soy Emmanuel Rodríguez</h2>
+                    <p>Actualmente curso el décimo cuatrimestre de la Ingeniería en Tecnologías de la Información, área Entornos Virtuales y Negocios Digitales, en la UTC. Mi enfoque principal es el diseño gráfico, con experiencia en desarrollo front-end.</p>
+                    <p>Trabajo con herramientas como Photoshop, Blender, After Effects y Premiere Pro, además de contar con una base sólida en HTML, CSS y JavaScript. En mi tiempo libre, disfruto aprender a usar nuevos programas, armar y optimizar PCs personalizadas, y relajarme jugando videojuegos.</p>
+                    <p>Aprendo rápido, sé trabajar muy bien en equipo y actualmente busco una oportunidad de estadía (prácticas profesionales) como diseñador gráfico junior o desarrollador front-end donde pueda seguir creciendo y desarrollando mis habilidades.</p>
+                </div>
             </div>
+            
         </div>
     </section>
+    
+    <script>
+        // --- LANGUAGE TOGGLE LOGIC WITH LOCAL STORAGE ---
+        const langToggleBtn = document.getElementById("lang-toggle");
+
+        // 1. When the page loads, check if the user already chose Spanish
+        if (localStorage.getItem("portfolioLang") === "spanish") {
+            document.body.classList.add("spanish-active");
+            langToggleBtn.textContent = "ENG";
+        }
+
+        // 2. What happens when they click the button
+        langToggleBtn.addEventListener("click", function() {
+            document.body.classList.toggle("spanish-active");
+
+            if (document.body.classList.contains("spanish-active")) {
+                langToggleBtn.textContent = "ENG";
+                localStorage.setItem("portfolioLang", "spanish"); // Save choice to browser memory
+            } else {
+                langToggleBtn.textContent = "ESP";
+                localStorage.setItem("portfolioLang", "english"); // Save choice to browser memory
+            }
+        });
+    </script>
 </body>
 </html>
