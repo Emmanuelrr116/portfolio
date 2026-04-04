@@ -73,9 +73,7 @@
         .inner-tab-content.active { display: block; animation: fadeIn 0.3s; }
 
         /* 3D GRID */
-        .bare-img-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 30px; }
-        .bare-img { width: 100%; border-radius: 12px; cursor: pointer; transition: 0.3s ease; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        .bare-img:hover { transform: scale(1.05); box-shadow: 0 10px 25px var(--accent); }
+      
 
         /* MODAL */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); justify-content: center; align-items: center; }
@@ -108,8 +106,18 @@
 
         .project-split { display: flex; gap: 40px; align-items: flex-start; margin-top: 30px; }
         .project-carousel { flex: 1; max-width: 55%; }
-        #ac-websites { aspect-ratio: 16 / 9; height: auto; width: 100%; }
-        #ac-websites .ac-item { object-fit: cover; } 
+        /* --- WEBSITES (MOBILE-FIRST CAROUSEL) --- */
+        #ac-websites { 
+            aspect-ratio: 9 / 16; 
+            height: auto; 
+            width: 100%; 
+            border-radius: 16px; 
+            background-color: #0f1115; 
+        }
+        
+        #ac-websites .ac-item { 
+            object-fit: cover; 
+        }
         .project-summary { flex: 1; background: var(--card-bg); padding: 40px; border-radius: 16px; border: 1px solid var(--border-low); }
         .project-summary h2 { font-size: 2rem; margin-bottom: 15px; color: var(--accent); text-transform: uppercase;}
         .project-summary ul { margin-left: 20px; margin-bottom: 30px; color: var(--text-muted); line-height: 1.8; }
@@ -119,15 +127,31 @@
         .anim-item { width: 100%; border-radius: 16px; border: 1px solid var(--border-low); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
 
       /* --- WEBSITES (WIDER CAROUSEL, CENTERED CARD) --- */
-        .project-split { display: flex; gap: 40px; align-items: center; margin-top: 30px; }
+       .project-split { 
+            display: flex; 
+            gap: 60px; /* Increased the gap slightly for better breathing room */
+            align-items: center; 
+            justify-content: center; /* This centers the phone and text box together */
+            margin-top: 30px; 
+        }
         
-        /* Forces the carousel to take up 68% of the width */
-        .project-carousel { flex: 0 0 62%; max-width: 62%; }
-        #ac-websites { aspect-ratio: 16 / 9; height: auto; width: 100%; border-radius: 16px; }
-        #ac-websites .ac-item { object-fit: cover; } 
+        /* Makes the carousel the size of a mobile phone */
+        .project-carousel { flex: 0 0 28%; max-width: 320px; }
+        
         
         /* Styles the card to match your mockup */
-        .project-summary { flex: 1; background: var(--card-bg); padding: 30px; border-radius: 16px; border: 1px solid var(--border-low); box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+        .project-summary { 
+            /* Removed flex: 1; */
+            max-width: 500px; /* This makes the box much narrower! */
+            width: 100%;
+            background: var(--card-bg); 
+            padding: 40px; 
+            border-radius: 16px; 
+            border: 1px solid var(--border-low); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4); 
+            height: fit-content; 
+            align-self: center; 
+        }
         .project-summary h2 { font-size: 1.8rem; margin-bottom: 20px; color: var(--text-main); text-transform: uppercase; letter-spacing: 1px; }
         
         /* Creates the solid block of justified text */
@@ -156,6 +180,24 @@
         @keyframes fadeIn { 
             from { opacity: 0; } 
             to { opacity: 1; } 
+        }
+
+       /* 3D GRID & MODAL IMAGES */
+        .bare-img-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 30px; }
+        
+        .model-image { 
+            width: 100%; /* This forces the image to fit inside the grid column! */
+            border-radius: 12px; 
+            cursor: pointer; 
+            transition: transform 0.2s ease, box-shadow 0.2s ease; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
+            object-fit: cover; /* Prevents stretching */
+            aspect-ratio: 4 / 3; /* Makes all your renders nice, uniform rectangles */
+        }
+        
+        .model-image:hover { 
+            transform: scale(1.03); 
+            box-shadow: 0 10px 25px var(--accent); 
         }
     </style>
 </head>
@@ -188,8 +230,8 @@
                 <p>Cross-platform 2D game development, featuring custom pixel-art and multiplayer mechanics.</p>
             </div>
             <div class="portfolio-card" onclick="openCategory('cat-web')">
-                <h3>Websites</h3>
-                <p>Responsive frontend development, UI/UX design, and Progressive Web Apps (PWA).</p>
+                <h3>Website</h3>
+                <p>Responsive frontend development, UI/UX design, and Progressive Web App (PWA).</p>
             </div>
         
         </div>
@@ -201,14 +243,14 @@
 
             <div id="cat-3d" class="category-content">
                 <h1 style="font-size: 3rem; margin-bottom: 10px;">3D Modeling & Renders</h1>
-                <p style="margin-bottom: 40px; color: var(--text-muted);">Click any image to view the 360° render video.</p>
+                <p style="margin-bottom: 40px; color: var(--text-muted);">A collection of hard-surface models, textured and lit using Blender. Click any image to view the high-resolution render.</p>
                 <div class="bare-img-grid">
-                    <img src="aloe.jpg" class="bare-img" onclick="openModal('aloe-360.mp4')">
-                    <img src="elongata.jpg" class="bare-img" onclick="openModal('elongata-360.mp4')">
-                    <img src="cereus.jpg" class="bare-img" onclick="openModal('cereus-360.mp4')">
-                    <img src="echeveria.jpg" class="bare-img" onclick="openModal('echeveria-360.mp4')">
-                    <img src="echinocactus.jpg" class="bare-img" onclick="openModal('echinocactus-360.mp4')">
-                    <img src="haworthia.jpg" class="bare-img" onclick="openModal('haworthia-360.mp4')">
+                   <img src="aloe.jpg" class="model-image" alt="Aloe 3D Model">
+                    <img src="elongata.jpg" class="model-image" alt="Elongata 3D Model">
+                    <img src="cereus.jpg" class="model-image" alt="Cereus 3D Model">
+                    <img src="echeveria.jpg" class="model-image" alt="Echeveria 3D Model">
+                    <img src="echinocactus.jpg" class="model-image" alt="Echinocactus 3D Model">
+                    <img src="haworthia.jpg" class="model-image" alt="Haworthia 3D Model">
                 </div>
             </div>
 
@@ -296,8 +338,8 @@
                 
                 <div id="vg-videos" class="inner-tab-content vg-content">
                     <div class="game-video-grid">
-                        <video class="game-video-item" controls><source src="moonwalk-video.mp4"></video>
-                        <video class="game-video-item" controls><source src="overdrived-video.mp4"></video>
+                        <video class="game-video-item" controls poster="moonwalk-poster.jpg"><source src="moonwalk-video.mp4"></video>
+                        <video class="game-video-item" controls poster="overdrived-poster.jpg"><source src="overdrived-video.mp4"></video>
                     </div>
                 </div>
             </div>
@@ -347,7 +389,10 @@
         <span class="close-modal" onclick="closeModal()">&times;</span>
         <video id="modalVideo" class="modal-content" controls autoplay><source src="" type="video/mp4"></video>
     </div>
-
+<div id="imageModal" class="modal">
+        <span class="close-modal" id="closeImageModal">&times;</span>
+        <img class="modal-content" id="expandedImg">
+    </div>
     <script>
         function openCategory(categoryId) {
             document.getElementById('portfolio-grid-section').style.display = 'none';
@@ -398,7 +443,34 @@
             document.getElementById("videoModal").style.display = "none";
             let videoElement = document.getElementById("modalVideo");
             videoElement.pause(); videoElement.src = "";
-        }
+           }
+            // --- IMAGE LIGHTBOX LOGIC ---
+        const imgModal = document.getElementById("imageModal");
+        const expandedImg = document.getElementById("expandedImg");
+        const closeImageModal = document.getElementById("closeImageModal");
+        const modelImages = document.querySelectorAll(".model-image");
+
+        // Open modal when an image is clicked
+        modelImages.forEach(img => {
+            img.addEventListener("click", function() {
+                imgModal.style.display = "flex"; // We use flex here to perfectly center it!
+                expandedImg.src = this.src;
+            });
+        });
+
+        // Close modal when X is clicked
+        closeImageModal.addEventListener("click", function() {
+            imgModal.style.display = "none";
+        });
+
+        // Close modal when clicking the dark background
+        imgModal.addEventListener("click", function(e) {
+            if (e.target !== expandedImg) {
+                imgModal.style.display = "none";
+            }
+        });
+        
+        
 
         class AutoCarousel {
             constructor(viewportId, paginationId, interval = 4000) {
@@ -504,5 +576,6 @@
            // Handled naturally by the class instantiations, but safe to leave here for logic breaks
         }
     </script>
+   
 </body>
 </html>
