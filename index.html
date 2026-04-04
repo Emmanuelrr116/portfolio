@@ -60,24 +60,28 @@
             .hero-roles h3 { font-size: 1.3rem; }
         }
 
-        @media (max-width: 768px) {
-            .hero-container { flex-direction: column; text-align: center; }
-            .hero-left-image { width: 90%; max-width: 400px; height: 350px; }
+       @media (max-width: 768px) {
+            /* 1. Mobile Navbar Fix */
+            nav { justify-content: center; gap: 12px; padding: 15px 5%; flex-wrap: wrap; }
+            nav a { font-size: 0.75rem; }
+            #lang-toggle { padding: 4px 8px; font-size: 0.75rem; }
             
-            /* Stacks the text box overlapping UPWARDS on mobile */
-            .hero-text-wrapper { position: relative; left: 0; margin-top: -60px; }
-            .hero-name { margin-left: 0; }
+            /* 2. Hero Layout & Overlap Fixes */
+            .hero-container { flex-direction: column; text-align: center; margin-top: 100px; } 
+            .hero-left-image { width: 85%; max-width: 350px; height: 320px; }
             
-            /* Adds a slight frosted glass effect so the text is readable over the image */
-            .hero-box { padding: 10px 20px; background: rgba(244, 245, 246, 0.9); backdrop-filter: blur(5px); }
-            .hero-box h1 { font-size: 3.5rem; }
-            .hero-roles { text-align: center; }
+            /* 3. Text Box Fixes (Makes the border thinner and text fit better) */
+            .hero-text-wrapper { position: relative; left: 0; margin-top: -50px; }
+            .hero-name { margin-left: 0; font-size: 1rem; margin-bottom: 5px; }
+            .hero-box { border: 4px solid #111111; padding: 10px 20px; background: rgba(244, 245, 246, 0.95); }
+            .hero-box h1 { font-size: 3.2rem; letter-spacing: -1px; }
+            .hero-roles { text-align: center; margin-top: 15px; }
+            .hero-roles h3 { font-size: 1.1rem; }
             
-            /* Shrink fingerprints */
-            .fingerprint-top { width: 200px; }
-            .fingerprint-bottom { width: 250px; }
+            /* 4. Shrink fingerprints so they don't cover text */
+            .fingerprint-top { width: 150px; }
+            .fingerprint-bottom { width: 200px; }
         }
-
         /* =========================================
            ANIMATION KEYFRAMES
            ========================================= */
