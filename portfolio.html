@@ -205,6 +205,46 @@
         body.spanish-active .lang-es { 
             display: block; 
         }
+
+        /* =========================================
+           EXTRA MOBILE FIXES (QA Polish)
+           ========================================= */
+           
+       /* 1. Stops images (like the Signature GIF) from breaking the screen width */
+        .inner-tab-content img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* 2. Keeps the PDF iframe responsive WITHOUT collapsing its height */
+        .inner-tab-content iframe {
+            max-width: 100%;
+            width: 100%;
+            min-height: 500px; /* Forces it to stay tall on mobile */
+            border: none; /* Removes the ugly default browser borders */
+        }
+
+        /* 2. Re-organizes the Navigation Menu for mobile screens */
+        @media (max-width: 768px) {
+            nav { 
+                justify-content: center; /* Centers the links */
+                gap: 12px; /* Shrinks the massive 30px gap down to fit */
+                padding: 15px 5%; 
+                flex-wrap: wrap; /* Allows them to wrap cleanly if needed */
+            }
+            nav a { 
+                font-size: 0.75rem; /* Makes the text slightly smaller for mobile */
+            }
+            #lang-toggle {
+                padding: 4px 8px;
+                font-size: 0.75rem;
+            }
+            
+            /* Pushes the content down slightly more on mobile so the nav doesn't cover it */
+            #portfolio-grid-section, #detail-view { 
+                padding-top: 130px; 
+            }
+        }
     </style>
 </head>
 <body>
