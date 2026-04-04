@@ -60,28 +60,24 @@
             .hero-roles h3 { font-size: 1.3rem; }
         }
 
-       @media (max-width: 768px) {
+      @media (max-width: 768px) {
             /* 1. Mobile Navbar Fix */
-            nav { justify-content: center; gap: 12px; padding: 15px 5%; flex-wrap: wrap; }
-            nav a { font-size: 0.75rem; }
-            #lang-toggle { padding: 4px 8px; font-size: 0.75rem; }
+            nav { justify-content: center; gap: 10px; padding: 15px 5%; flex-wrap: wrap; }
+            nav a { font-size: 0.7rem; }
+            #lang-toggle { padding: 4px 8px; font-size: 0.7rem; }
             
-            /* 2. Hero Layout & Overlap Fixes */
-            .hero-container { flex-direction: column; text-align: center; margin-top: 100px; } 
-            .hero-left-image { width: 85%; max-width: 350px; height: 320px; }
-            
-            /* 3. Text Box Fixes (Makes the border thinner and text fit better) */
-            .hero-text-wrapper { position: relative; left: 0; margin-top: -50px; }
-            .hero-name { margin-left: 0; font-size: 1rem; margin-bottom: 5px; }
-            .hero-box { border: 4px solid #111111; padding: 10px 20px; background: rgba(244, 245, 246, 0.95); }
-            .hero-box h1 { font-size: 3.2rem; letter-spacing: -1px; }
-            .hero-roles { text-align: center; margin-top: 15px; }
-            .hero-roles h3 { font-size: 1.1rem; }
-            
-            /* 4. Shrink fingerprints so they don't cover text */
-            .fingerprint-top { width: 150px; }
-            .fingerprint-bottom { width: 200px; }
-        }
+            /* Pushes content down so the nav doesn't cover it */
+            #portfolio-grid-section, #detail-view { padding-top: 130px; }
+
+            /* 2. Narrower Portfolio Cards! */
+            .portfolio-grid { 
+                width: 85%; /* Shrinks the container so it doesn't touch the screen edges */
+                margin: 0 auto; /* Centers the grid */
+            }
+            .portfolio-card { 
+                padding: 25px; /* Reduces the inside padding slightly for small screens */
+            }
+            }
         /* =========================================
            ANIMATION KEYFRAMES
            ========================================= */
