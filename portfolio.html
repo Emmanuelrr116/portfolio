@@ -91,11 +91,24 @@
 
       
         #cat-graphic .ac-viewport { max-height: 80vh; }
-        #ac-flyers { max-width: 850px; margin: 0 auto; aspect-ratio: 11 / 10; height: auto; }
-        #ac-flyers .ac-item { object-fit: contain; }
-        #ac-mailings { max-width: 500px; margin: 0 auto; aspect-ratio: 2209 / 2824; height: auto; max-height: 80vh; }
+        #ac-mailings { 
+            width: 100%; 
+            max-width: calc(75vh * (2209 / 2824)); 
+            aspect-ratio: 2209 / 2824; 
+            height: auto; 
+            margin: 0 auto; 
+        }
         #ac-mailings .ac-item { object-fit: contain; }
 
+        #ac-flyers { 
+            width: 100%; 
+            max-width: calc(75vh * (11 / 10)); 
+            aspect-ratio: 11 / 10; 
+            height: auto; 
+            margin: 0 auto; 
+        }
+        #ac-flyers .ac-item { object-fit: contain; }
+        
         .game-gallery-btns { display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; }
         .btn-gallery { background: var(--card-bg); color: white; border: 1px solid var(--border-low); padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: bold;}
         .btn-gallery.active { background: white; color: black; }
