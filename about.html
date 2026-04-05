@@ -20,7 +20,7 @@
             overflow-x: hidden; 
         }
         
-        /* --- NAVBAR --- */
+      
         nav { 
             position: fixed; 
             top: 0; 
@@ -43,11 +43,11 @@
         }
         nav a:hover { color: var(--accent); }
 
-        /* Styling for the language toggle button */
+       
         #lang-toggle { background: transparent; color: white; border: 1px solid white; padding: 5px 10px; border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.3s; }
         #lang-toggle:hover { background: white; color: black; }
         
-        /* --- ABOUT ME SECTION SPECIFIC CSS --- */
+        
         #about { 
             position: relative; 
             padding: 150px 5% 100px 5%; 
@@ -115,9 +115,7 @@
             text-align: justify; 
         }
 
-        /* =========================================
-           ANIMATION KEYFRAMES
-           ========================================= */
+      
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(40px); }
             to { opacity: 1; transform: translateY(0); }
@@ -129,9 +127,7 @@
             100% { transform: translateY(0px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         }
 
-        /* =========================================
-           RESPONSIVE DESIGN (Tablets & Mobile)
-           ========================================= */
+      
         @media (max-width: 1150px) {
             .about-container { max-width: 90%; gap: 40px; }
             .about-text h2 { font-size: 2.4rem; white-space: normal; }
@@ -139,12 +135,12 @@
         }
 
         @media (max-width: 768px) {
-            /* 1. Mobile Navbar Fix */
+          
             nav { justify-content: center; gap: 10px; padding: 15px 5%; flex-wrap: wrap; }
             nav a { font-size: 0.7rem; }
             #lang-toggle { padding: 4px 8px; font-size: 0.7rem; }
 
-            /* 2. About Me Layout Fixes */
+            
             .about-container { flex-direction: column; text-align: center; }
             .about-photo { width: 250px; height: 250px; }
             .about-text h2 { font-size: 2.2rem; white-space: normal; text-align: center; }
@@ -152,9 +148,7 @@
             .about-fingerprint { width: 400px; height: 400px; right: -120px; bottom: -50px; opacity: 0.4; }
         }
 
-        /* =========================================
-           BILINGUAL LIGHT SWITCH CSS
-           ========================================= */
+     
         .lang-es { display: none; }
         body.spanish-active .lang-en { display: none; }
         body.spanish-active .lang-es { display: block; }
@@ -165,7 +159,7 @@
         <a href="index.html" class="lang-en">Home</a>
         <a href="about.html" class="lang-en">About Me</a>
         <a href="portfolio.html" class="lang-en">Portfolio</a>
-        <a href="resume.pdf" target="_blank" class="lang-en">Curriculum</a> 
+        <a href="resume.pdf" target="_blank" class="lang-en">Resume</a> 
         
         <a href="index.html" class="lang-es">Inicio</a>
         <a href="about.html" class="lang-es">Sobre Mí</a>
@@ -201,25 +195,25 @@
     </section>
     
     <script>
-        // --- LANGUAGE TOGGLE LOGIC WITH LOCAL STORAGE ---
+     
         const langToggleBtn = document.getElementById("lang-toggle");
 
-        // 1. When the page loads, check if the user already chose Spanish
+       
         if (localStorage.getItem("portfolioLang") === "spanish") {
             document.body.classList.add("spanish-active");
             langToggleBtn.textContent = "ENG";
         }
 
-        // 2. What happens when they click the button
+     
         langToggleBtn.addEventListener("click", function() {
             document.body.classList.toggle("spanish-active");
 
             if (document.body.classList.contains("spanish-active")) {
                 langToggleBtn.textContent = "ENG";
-                localStorage.setItem("portfolioLang", "spanish"); // Save choice to browser memory
+                localStorage.setItem("portfolioLang", "spanish"); 
             } else {
                 langToggleBtn.textContent = "ESP";
-                localStorage.setItem("portfolioLang", "english"); // Save choice to browser memory
+                localStorage.setItem("portfolioLang", "english"); 
             }
         });
     </script>

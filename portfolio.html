@@ -6,12 +6,11 @@
     <title>Emmanuel Rodríguez | Portfolio</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <style>
-        /* KEEP ALL YOUR PORTFOLIO CSS AND CAROUSEL CSS HERE */
-        /* --- GLOBAL & VARIABLES --- */
+    
         :root { --bg-gradient: linear-gradient(135deg, #1b1236 0%, #3a3a3a 100%); --card-bg: #1a1d24; --text-main: #ffffff; --text-muted: #a0aab2; --accent: #4f46e5; --border-low: rgba(255,255,255,0.05); }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
         
-        /* NEW: Soft page load transition */
+       
         body { 
             background: var(--bg-gradient); color: var(--text-main); min-height: 100vh; overflow-x: hidden; 
             animation: pageFadeIn 0.5s ease-out;
@@ -21,21 +20,21 @@
         nav a { color: white; text-decoration: none; font-weight: 600; text-transform: uppercase; font-size: 0.9rem; transition: color 0.3s; }
         nav a:hover { color: var(--accent); }
 
-        /* Styling for the language toggle button */
+      
         #lang-toggle { background: transparent; color: white; border: 1px solid white; padding: 5px 10px; border-radius: 4px; font-weight: bold; cursor: pointer; transition: 0.3s; }
         #lang-toggle:hover { background: white; color: black; }
 
-        /* PORTFOLIO GRID */
+       
         #portfolio-grid-section { padding: 150px 5% 100px 5%; }
         
-        /* NEW: Title and Intro animation */
+       
         #portfolio-grid-section h2, #portfolio-grid-section > p { 
             animation: fadeUp 0.6s ease-out forwards; 
         }
         #portfolio-grid-section h2 { text-align: center; font-size: 3rem; text-transform: uppercase; margin-bottom: 10px; }
         #portfolio-grid-section > p { text-align: center; margin-bottom: 30px; color: var(--text-muted); }
         
-        /* NEW: Showreel delays slightly */
+     
         .reel-container { 
             max-width: 1000px; margin: 0 auto 50px auto; 
             opacity: 0; 
@@ -45,14 +44,14 @@
 
         .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; max-width: 1000px; margin: 0 auto; }
         
-        /* NEW: The Cards start hidden and cascade in */
+       
         .portfolio-card { 
             background-color: var(--card-bg); padding: 40px; border-radius: 16px; cursor: pointer; transition: 0.3s; border: 1px solid var(--border-low); box-shadow: 0 10px 30px rgba(0,0,0,0.3); 
             opacity: 0;
             animation: fadeUp 0.6s ease-out forwards;
         }
         
-        /* Cascading Delays for each card */
+      
         .portfolio-card:nth-child(1) { animation-delay: 0.3s; }
         .portfolio-card:nth-child(2) { animation-delay: 0.4s; }
         .portfolio-card:nth-child(3) { animation-delay: 0.5s; }
@@ -62,26 +61,26 @@
         .portfolio-card:hover { transform: translateY(-5px); border-color: rgba(79, 70, 229, 0.5); box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
         .portfolio-card h3 { font-size: 1.8rem; margin-bottom: 10px; }
 
-        /* DETAIL VIEWS */
+      
         #detail-view { display: none; padding-top: 150px; padding-bottom: 150px; }
         .btn-back { background-color: transparent; color: white; border: 2px solid white; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 30px; transition: 0.3s; }
         .btn-back:hover { background-color: white; color: black; }
         .category-content { display: none; } 
         .category-content.active { display: block; animation: fadeIn 0.4s ease-in-out;}
 
-        /* TABS */
+       
         .tab-buttons { display: flex; gap: 15px; margin: 30px 0; justify-content: center; flex-wrap: wrap; }
         .tab-btn { background-color: var(--card-bg); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; }
         .tab-btn.active { background-color: white; color: black; }
         .inner-tab-content { display: none; }
         .inner-tab-content.active { display: block; animation: fadeIn 0.3s; }
 
-        /* MODAL */
+        
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); justify-content: center; align-items: center; }
         .modal-content { max-width: 90%; max-height: 90%; border-radius: 12px; }
         .close-modal { position: absolute; top: 30px; right: 40px; color: white; font-size: 50px; font-weight: bold; cursor: pointer; z-index: 2001; }
 
-        /* CAROUSEL ENGINE */
+       
         .ac-viewport { position: relative; width: 100%; overflow: hidden; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); border: 1px solid var(--border-low); }
         .ac-container { display: flex; flex-wrap: nowrap; height: 100%; transition: transform 0.6s ease-in-out; will-change: transform; }
         .ac-item { flex: 0 0 100%; width: 100%; height: 100%; object-fit: contain; flex-shrink: 0; display: block; }
@@ -90,7 +89,7 @@
         .ac-dot:hover { background-color: rgba(255,255,255,0.6); }
         .ac-dot.active { background-color: var(--accent); border-color: white; box-shadow: 0 0 10px var(--accent); transform: scale(1.2); }
 
-        /* SPECIFIC SIZING */
+      
         #cat-graphic .ac-viewport { max-height: 80vh; }
         #ac-flyers { max-width: 850px; margin: 0 auto; aspect-ratio: 11 / 10; height: auto; }
         #ac-flyers .ac-item { object-fit: contain; }
@@ -105,7 +104,6 @@
         .game-video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; }
         .game-video-item { width: 100%; border-radius: 16px; border: 1px solid var(--border-low); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
 
-        /* --- WEBSITES (MOBILE-FIRST CAROUSEL) --- */
         #ac-websites { 
             aspect-ratio: 9 / 16; 
             height: auto; 
@@ -121,7 +119,7 @@
         .anim-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; }
         .anim-item { width: 100%; border-radius: 16px; border: 1px solid var(--border-low); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
 
-        /* --- WEBSITES (WIDER CAROUSEL, CENTERED CARD) --- */
+   
        .project-split { 
             display: flex; 
             gap: 60px;
@@ -130,10 +128,10 @@
             margin-top: 30px; 
         }
         
-        /* Makes the carousel the size of a mobile phone */
+       
         .project-carousel { flex: 0 0 28%; max-width: 320px; }
         
-        /* Styles the card to match your mockup */
+     
         .project-summary { 
             max-width: 500px;
             width: 100%;
@@ -147,7 +145,7 @@
         }
         .project-summary h2 { font-size: 1.8rem; margin-bottom: 20px; color: var(--text-main); text-transform: uppercase; letter-spacing: 1px; }
         
-        /* Creates the solid block of justified text */
+      
         .project-summary p { margin-bottom: 20px; color: var(--text-main); line-height: 1.6; text-align: justify; font-size: 1.05rem; }
         
         .btn-visit { display: inline-block; background: var(--accent); color: white; padding: 15px 30px; border-radius: 8px; font-weight: bold; text-decoration: none; transition: 0.3s; box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4); text-transform: uppercase; letter-spacing: 1px; width: 100%; text-align: center; margin-top: 10px;}
@@ -159,9 +157,6 @@
             .project-split { flex-direction: column; align-items: stretch; } 
         }
 
-        /* =========================================
-           ANIMATION KEYFRAMES
-           ========================================= */
         @keyframes pageFadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -175,7 +170,7 @@
             to { opacity: 1; } 
         }
 
-       /* 3D GRID & MODAL IMAGES */
+    
         .bare-img-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 30px; }
         
         .model-image { 
@@ -193,12 +188,12 @@
             box-shadow: 0 10px 25px var(--accent); 
         }
 
-        /* Default State: Hide all Spanish text */
+       
         .lang-es { 
             display: none; 
         }
 
-        /* Toggled State: Hide English, Show Spanish */
+       
         body.spanish-active .lang-en { 
             display: none; 
         }
@@ -206,38 +201,35 @@
             display: block; 
         }
 
-        /* =========================================
-           EXTRA MOBILE FIXES (QA Polish)
-           ========================================= */
+      
            
-       /* 1. Stops images (like the Signature GIF) from breaking the screen width */
         .inner-tab-content img {
             max-width: 100%;
             height: auto;
         }
 
-        /* 2. Keeps the PDF iframe responsive WITHOUT collapsing its height */
+       
         .inner-tab-content iframe {
             max-width: 100%;
             width: 100%;
-            min-height: 500px; /* Forces it to stay tall on mobile */
-            border: none; /* Removes the ugly default browser borders */
+            min-height: 500px; 
+            border: none;
         }
 
-        /* 2. Re-organizes the Navigation Menu for mobile screens */
+      
        @media (max-width: 768px) {
-            /* 1. Mobile Navbar Fix */
+          
             nav { justify-content: center; gap: 10px; padding: 15px 5%; flex-wrap: wrap; }
             nav a { font-size: 0.7rem; }
             #lang-toggle { padding: 4px 8px; font-size: 0.7rem; }
             
-            /* Pushes content down so the nav doesn't cover it */
+           
             #portfolio-grid-section, #detail-view { padding-top: 130px; }
 
-            /* 2. Narrower Portfolio Cards! */
+           
             .portfolio-grid { 
-                grid-template-columns: 1fr; /* This is the magic line! It cancels the 400px rule. */
-                width: 85%; /* Now it is finally allowed to shrink! */
+                grid-template-columns: 1fr; 
+                width: 85%; 
                 margin: 0 auto; 
             }
             .portfolio-card { 
@@ -252,7 +244,7 @@
         <a href="index.html" class="lang-en">Home</a>
         <a href="about.html" class="lang-en">About Me</a>
         <a href="portfolio.html" class="lang-en">Portfolio</a>
-        <a href="resume.pdf" target="_blank" class="lang-en">Curriculum</a> 
+        <a href="resume.pdf" target="_blank" class="lang-en">Resume</a> 
         
         <a href="index.html" class="lang-es">Inicio</a>
         <a href="about.html" class="lang-es">Sobre Mí</a>
@@ -546,26 +538,26 @@
             videoElement.pause(); videoElement.src = "";
            }
            
-        // --- IMAGE LIGHTBOX LOGIC ---
+      
         const imgModal = document.getElementById("imageModal");
         const expandedImg = document.getElementById("expandedImg");
         const closeImageModal = document.getElementById("closeImageModal");
         const modelImages = document.querySelectorAll(".model-image");
 
-        // Open modal when an image is clicked
+        
         modelImages.forEach(img => {
             img.addEventListener("click", function() {
-                imgModal.style.display = "flex"; // We use flex here to perfectly center it!
+                imgModal.style.display = "flex"; 
                 expandedImg.src = this.src;
             });
         });
 
-        // Close modal when X is clicked
+       
         closeImageModal.addEventListener("click", function() {
             imgModal.style.display = "none";
         });
 
-        // Close modal when clicking the dark background
+       
         imgModal.addEventListener("click", function(e) {
             if (e.target !== expandedImg) {
                 imgModal.style.display = "none";
@@ -673,28 +665,28 @@
         }
 
         function stopAllCarousels() {
-           // Handled naturally by the class instantiations, but safe to leave here for logic breaks
+          
         }
 
-        // --- LANGUAGE TOGGLE LOGIC WITH LOCAL STORAGE ---
+       
         const langToggleBtn = document.getElementById("lang-toggle");
 
-        // 1. When the page loads, check if the user already chose Spanish
+        
         if (localStorage.getItem("portfolioLang") === "spanish") {
             document.body.classList.add("spanish-active");
             langToggleBtn.textContent = "ENG";
         }
 
-        // 2. What happens when they click the button
+       
         langToggleBtn.addEventListener("click", function() {
             document.body.classList.toggle("spanish-active");
 
             if (document.body.classList.contains("spanish-active")) {
                 langToggleBtn.textContent = "ENG";
-                localStorage.setItem("portfolioLang", "spanish"); // Save choice to browser memory
+                localStorage.setItem("portfolioLang", "spanish"); 
             } else {
                 langToggleBtn.textContent = "ESP";
-                localStorage.setItem("portfolioLang", "english"); // Save choice to browser memory
+                localStorage.setItem("portfolioLang", "english"); 
             }
         });
     </script>
